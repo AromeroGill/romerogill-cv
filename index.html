@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV | Alejandro Romero</title>
+    <meta name="description" content="Curriculum vitae de Alejandro Romero Gill de Albornoz, desarrollador web full stack junior.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Oxanium:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ── Variables de color y tamaño máximo del CV ── */
+        /* ── Variables ── */
+        :root {
+            --bg:        #070b16;
+            --bg-deep:   #050814;
+            --sidebar:   #08101f;
+            --surface:   #0d1526;
+            --surface-2: #101c30;
+            --ink:       #ecf3ff;
+            --muted:     #8fa3c8;
+            --line:      #1a2b4a;
+            --accent:    #5db3ff;
+            --accent-2:  #8a6dff;
+            --maxw:      980px;
+        }
+
+        /* ── Reset de box model ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ── Body con fondo degradado, fuente monoespaciada y relleno exterior ── */
+        body {
+            background:
+                radial-gradient(1100px 700px at 10% -15%, rgba(93,179,255,0.13) 0%, transparent 55%),
+                radial-gradient(900px 700px at 90% -5%,  rgba(138,109,255,0.16) 0%, transparent 52%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: 3rem 1rem 4rem;
+            position: relative;
+        }
+
+        /* ── Capa de ruido visual sobre el fondo ── */
+        /* grain */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.055;
+            background-image: radial-gradient(#f5f9ff 0.6px, transparent 0.6px);
+            background-size: 4px 4px;
+            z-index: 0;
+        }
+
+        /* ── Tarjeta principal del CV: grid de dos columnas (sidebar + main) ── */
+        /* ═══════════════════════════
+           CV CARD  (the Canva frame)
+        ═══════════════════════════ */
+        .cv-card {
+            position: relative;
+            z-index: 1;
+            width: min(100%, var(--maxw));
+            margin-inline: auto;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px var(--line),
+                0 32px 80px rgba(0,0,0,0.55),
+                0 0 60px rgba(93,179,255,0.06);
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: auto 1fr;
+        }
+
+        /* ── Franja de color degradado en la parte superior de la tarjeta ── */
+        /* ─── colour strip at top ─── */
+        .cv-topbar {
+            grid-column: 1 / -1;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+        }
+
+        /* ── Columna lateral con fondo oscuro y separador vertical ── */
+        /* ─── SIDEBAR ─── */
+        .cv-sidebar {
+            background: var(--sidebar);
+            border-right: 1px solid var(--line);
+            padding: 2.4rem 1.8rem 2.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* avatar */
+        .avatar-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1.6rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .avatar {
+            width: clamp(96px, 12vw, 118px);
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Oxanium", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -1px;
+            box-shadow: 0 0 0 3px var(--line), 0 8px 24px rgba(93,179,255,0.25);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .avatar-name {
+            text-align: center;
+        }
+
+        .avatar-name h1 {
+            font-family: "Oxanium", sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--ink);
+        }
+
+        .avatar-name .role {
+            font-size: 0.68rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-top: 0.35rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* sidebar section */
+        .s-section { display: flex; flex-direction: column; gap: 0.85rem; }
+
+        .s-title {
+            font-family: "Oxanium", sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent-2);
+            padding-bottom: 0.45rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        /* contact rows */
+        .contact-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            font-size: 0.72rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .contact-row .icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: var(--surface-2);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+
+        .contact-row a {
+            color: var(--accent);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .contact-row a:hover { text-decoration: underline; }
+
+        /* ── Barras de habilidades técnicas con relleno degradado ── */
+        /* skill bars */
+        .skill-item { display: flex; flex-direction: column; gap: 0.3rem; }
+
+        .skill-item .skill-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--ink);
+        }
+
+        .skill-item .skill-label span:last-child { color: var(--muted); font-size: 0.65rem; }
+
+        .skill-track {
+            height: 5px;
+            background: var(--line);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .skill-track .fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        }
+
+        /* sidebar chips */
+        .s-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .s-chip {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            background: var(--surface-2);
+            border: 1px solid var(--line);
+            color: var(--muted);
+        }
+
+        /* lang rows */
+        .lang-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.28rem;
+        }
+
+        .lang-row .lang-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+        }
+
+        .lang-row .lang-top .lang-name { color: var(--ink); font-weight: 600; }
+        .lang-row .lang-top .lang-lvl  { color: var(--muted); font-size: 0.65rem; }
+
+        /* ── Área principal de contenido: formación, proyectos y metodología ── */
+        /* ─── MAIN ─── */
+        .cv-main {
+            background: var(--surface);
+            padding: 2.4rem 2.2rem 2.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* page intro */
+        .main-hero {
+            padding-bottom: 1.4rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .main-hero .eyebrow {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent-2);
+            margin-bottom: 0.5rem;
+        }
+
+        .main-hero p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        /* main section */
+        .m-section { display: flex; flex-direction: column; gap: 1rem; }
+
+        .m-title {
+            font-family: "Oxanium", sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .m-title::before {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            flex-shrink: 0;
+        }
+
+        /* ── Línea de tiempo con punto de nodo y línea vertical conectora ── */
+        /* timeline entries */
+        .timeline { display: flex; flex-direction: column; gap: 0; }
+
+        .tl-item {
+            display: grid;
+            grid-template-columns: 14px 1fr;
+            gap: 0 1rem;
+            position: relative;
+        }
+
+        /* vertical line */
+        .tl-item:not(:last-child) .tl-dot::after {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 14px;
+            bottom: -1rem;
+            width: 2px;
+            background: var(--line);
+        }
+
+        .tl-dot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding-top: 3px;
+        }
+
+        .tl-dot::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--surface);
+            box-shadow: 0 0 0 2px var(--accent);
+            flex-shrink: 0;
+        }
+
+        .tl-body {
+            padding-bottom: 1.4rem;
+        }
+
+        .tl-body .tl-date {
+            font-size: 0.65rem;
+            color: var(--accent-2);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .tl-body h3 {
+            font-family: "Oxanium", sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.18rem;
+        }
+
+        .tl-body .org {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-bottom: 0.45rem;
+        }
+
+        .tl-body ul {
+            padding-left: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .tl-body li, .tl-body p.desc {
+            font-size: 0.76rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── Grid de tarjetas de proyectos de dos columnas ── */
+        /* project cards 2-col grid */
+        .proj-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .proj-card {
+            background: var(--surface-2);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 1rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* accent left border */
+        .proj-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent), var(--accent-2));
+            border-radius: 3px 0 0 3px;
+        }
+
+        .proj-card .tag {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-2);
+        }
+
+        .proj-card h3 {
+            font-family: "Oxanium", sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .proj-card p {
+            font-size: 0.72rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        /* ── Estilos de impresión: fondo blanco y colores adaptados ── */
+        /* ─── Print ─── */
+        @media print {
+            body { background: #fff; padding: 0; }
+            body::before { display: none; }
+            .cv-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            .cv-sidebar { background: #f5f7ff; border-right-color: #ccc; }
+            .cv-main    { background: #fff; }
+            .avatar { background: #ccc; }
+            .avatar-name h1, .tl-body h3, .proj-card h3 { color: #111; }
+            .contact-row, .tl-body li, .tl-body p.desc, .proj-card p, .s-chip { color: #555; }
+            .skill-track { background: #ddd; }
+        }
+
+        /* ── Responsive: una sola columna en móvil ── */
+        /* ─── Responsive ─── */
+        @media (max-width: 680px) {
+            .cv-card {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .cv-sidebar   { border-right: none; border-bottom: 1px solid var(--line); }
+            .proj-grid    { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cv-card">
+
+        <!-- Franja de color superior del CV -->
+        <!-- colour strip -->
+        <div class="cv-topbar"></div>
+
+        <!-- ════════════════ SIDEBAR ════════════════ -->
+        <!-- Barra lateral: foto, nombre, contacto, habilidades e idiomas -->
+        <aside class="cv-sidebar">
+
+            <!-- avatar + name -->
+            <!-- Foto de perfil y nombre completo con rol -->
+            <div class="avatar-wrap">
+                <div class="avatar">
+                    <img src="FOTO.png" alt="Foto de Alejandro Romero">
+                </div>
+                <div class="avatar-name">
+                    <h1>Alejandro Romero<br>Gill de Albornoz</h1>
+                    <p class="role">Full Stack Junior</p>
+                </div>
+            </div>
+
+            <!-- contacto -->
+            <!-- Datos de contacto: ubicación, email, GitHub y portfolio -->
+            <div class="s-section">
+                <p class="s-title">Contacto</p>
+                <div class="contact-row">
+                    <span class="icon">📍</span>
+                    <span>España</span>
+                </div>
+                <div class="contact-row">
+                    <span class="icon">✉</span>
+                    <a href="mailto:aleromgill@gmail.com">aleromgill@gmail.com</a>
+                </div>
+                <div class="contact-row">
+                    <span class="icon">gh</span>
+                    <a href="https://github.com/AromeroGill" target="_blank" rel="noopener">github.com/AromeroGill</a>
+                </div>
+                <div class="contact-row">
+                    <span class="icon">🌐</span>
+                    <a href="#">portfolio.dev</a>
+                </div>
+            </div>
+
+            <!-- habilidades con barra -->
+            <!-- Barras de progreso para cada tecnología del stack -->
+            <div class="s-section">
+                <p class="s-title">Stack técnico</p>
+                <div class="skill-item">
+                    <div class="skill-label"><span>HTML / CSS</span><span>Avanzado</span></div>
+                    <div class="skill-track"><div class="fill" style="width:90%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>JavaScript</span><span>Intermedio</span></div>
+                    <div class="skill-track"><div class="fill" style="width:70%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>PHP</span><span>Intermedio</span></div>
+                    <div class="skill-track"><div class="fill" style="width:65%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>MySQL</span><span>Intermedio</span></div>
+                    <div class="skill-track"><div class="fill" style="width:65%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>Git / GitHub</span><span>Avanzado</span></div>
+                    <div class="skill-track"><div class="fill" style="width:80%"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-label"><span>Bootstrap</span><span>Avanzado</span></div>
+                    <div class="skill-track"><div class="fill" style="width:80%"></div></div>
+                </div>
+            </div>
+
+            <!-- idiomas -->
+            <!-- Nivel de idiomas con barra de porcentaje -->
+            <div class="s-section">
+                <p class="s-title">Idiomas</p>
+                <div class="lang-row">
+                    <div class="lang-top">
+                        <span class="lang-name">Español</span>
+                        <span class="lang-lvl">Nativo</span>
+                    </div>
+                    <div class="skill-track"><div class="fill" style="width:100%"></div></div>
+                </div>
+                <div class="lang-row">
+                    <div class="lang-top">
+                        <span class="lang-name">Inglés</span>
+                        <span class="lang-lvl">C1</span>
+                    </div>
+                    <div class="skill-track"><div class="fill" style="width:85%"></div></div>
+                </div>
+            </div>
+
+            <!-- competencias -->
+            <!-- Chips con competencias transversales y blandas -->
+            <div class="s-section">
+                <p class="s-title">Competencias</p>
+                <div class="s-chips">
+                    <span class="s-chip">Responsive</span>
+                    <span class="s-chip">Accesibilidad</span>
+                    <span class="s-chip">REST APIs</span>
+                    <span class="s-chip">Trabajo en equipo</span>
+                    <span class="s-chip">Aprendizaje autónomo</span>
+                    <span class="s-chip">Documentación</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- ════════════════ MAIN ════════════════ -->
+        <!-- Zona principal: resumen profesional, formación, proyectos y metodología -->
+        <main class="cv-main">
+
+            <!-- perfil / sobre mí -->
+            <!-- Resumen profesional del candidato -->
+            <div class="main-hero">
+                <p class="eyebrow">Desarrollador Web</p>
+                <p>
+                    Estudiante de Desarrollo de Aplicaciones Web (DAW) con orientacion a entornos
+                    profesionales donde crecer como desarrollador full stack junior. Me enfoco en
+                    construir productos web utiles: buena experiencia de usuario en frontend, codigo
+                    mantenible y logica de negocio clara en backend. Busco incorporarme a un equipo
+                    donde aportar una base tecnica solida, evolucionar con mentorias y asumir mayor
+                    responsabilidad en cada proyecto.
+                </p>
+            </div>
+
+            <!-- formación -->
+            <!-- Historial académico en línea de tiempo -->
+            <div class="m-section">
+                <p class="m-title">Formación</p>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-body">
+                            <p class="tl-date">2024 — Actualidad</p>
+                            <h3>Técnico Superior en Desarrollo de Aplicaciones Web</h3>
+                            <p class="org">CEACFP · España</p>
+                            <ul>
+                                <li>Desarrollo frontend y backend: HTML, CSS, JS, PHP y MySQL.</li>
+                                <li>Validación y control de formularios.</li>
+                                <li>Control de versiones con Git y despliegue de aplicaciones web.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-body">
+                            <p class="tl-date">2022 — 2024</p>
+                            <h3>Técnico en Sistemas Microinformáticos y Redes</h3>
+                            <p class="org">PROGRESA · España</p>
+                            <p class="desc">Formacion en montaje y mantenimiento de equipos, administracion basica de redes y soporte tecnico a usuarios y sistemas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- proyectos -->
+            <!-- Grid de tarjetas con los proyectos más relevantes -->
+            <div class="m-section">
+                <p class="m-title">Proyectos destacados</p>
+                <div class="proj-grid">
+                    <div class="proj-card">
+                        <p class="tag">Frontend + Backend</p>
+                        <h3>Formulario con validaciones robustas</h3>
+                        <p>Validaciones en cliente y servidor, persistencia en BD y gestion de errores clara.</p>
+                    </div>
+                    <div class="proj-card">
+                        <p class="tag">API + MySQL</p>
+                        <h3>CRUD de usuarios modular</h3>
+                        <p>Servicio PHP + MySQL con arquitectura escalable y preparada para mantenimiento.</p>
+                    </div>
+                    <div class="proj-card">
+                        <p class="tag">Deploy + Base de datos</p>
+                        <h3>Despliegue web con MySQL</h3>
+                        <p>Publicacion de una web en hosting con PHP y MySQL, configurando conexion segura y estructura de datos estable.</p>
+                    </div>
+                    <div class="proj-card">
+                        <p class="tag">Full Stack</p>
+                        <h3>Web personal con blog</h3>
+                        <p>Sitio multi-pagina con contacto via PHP, blog dinamico y base de datos MySQL.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- metodología -->
+            <!-- Forma de trabajar y objetivo profesional en formato timeline -->
+            <div class="m-section">
+                <p class="m-title">Metodología de trabajo</p>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-body">
+                            <h3>Analisis y planificacion</h3>
+                            <p class="desc">Analizo requisitos y priorizo tareas por impacto antes de escribir una sola linea de codigo.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-body">
+                            <h3>Desarrollo iterativo</h3>
+                            <p class="desc">Divido el trabajo en entregas pequenas, comprobables y documentadas.</p>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-body">
+                            <h3>Objetivo profesional</h3>
+                            <p class="desc">Incorporarme a una empresa donde aportar base tecnica solida, crecer con mentorias y asumir mas responsabilidad en cada sprint.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div><!-- /.cv-card -->
+
+</body>
+</html>
